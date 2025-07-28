@@ -1,0 +1,10 @@
+requests
+python-dotenv
+pandas
+matplotlib
+psycopg2-binary
+folium
+geopy
+Pillow
+iso3166
+numpy

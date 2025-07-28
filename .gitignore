@@ -1,0 +1,33 @@
+# Ignore SQLite database file
+
+db.sqlite3
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Django migrations (compiled)
+*.log
+*.pot
+*.pyc
+migrations/*/__pycache__/
+
+# Environment and IDE files
+.env
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Jupyter and notebook outputs
+*.ipynb_checkpoints
+
+# Static/plot outputs (optional, if generated)
+static/plots/*.png
+static/plots/*.html

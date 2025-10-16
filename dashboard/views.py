@@ -257,27 +257,43 @@ def dashboard(request):
 
         # HEATMAP
         # Create a dark themed map
-        m = folium.Map(location=[20, 0], zoom_start=2,
-                      tiles='CartoDB dark_matter',
-                      max_bounds=True, min_zoom=2, max_zoom=6,
-                      prefer_canvas=True, no_wrap=True,
-                      control_scale=True)
+        m = folium.Map(
+            location=[20, 0],
+            zoom_start=2,
+            tiles=None,  # disable default
+            max_bounds=True,
+            min_zoom=2,
+            max_zoom=6,
+            prefer_canvas=True,
+            no_wrap=True,
+            control_scale=True
+        )
+
+        folium.TileLayer(
+            tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}',
+            attr='Esri',
+            name='Dark Land Light Ocean',
+            overlay=False,
+            control=False
+        ).add_to(m)
 
         if heatmap_points:
-            # Add a stylized heatmap layer
-            gradient = {0.2: '#3498db', 0.4: '#2ecc71',
-                       0.6: '#f1c40f', 0.8: '#e67e22', 1: '#e74c3c'}
-
-            heatmap = HeatMap(
+            # Custom gradient for bullet color style
+            # Example: white → red tones on dark land
+            gradient = {
+                0.2: "#f30f0f",   # light/soft point
+                0.5: "#b11e1e",   # medium intensity
+                0.8: "#C70505",   # stronger red
+                1.0: "#FA0303"    # darkest/red-brown tone
+            }
+        
+            HeatMap(
                 heatmap_points,
-                radius=35,
-                blur=40,
-                max_zoom=6,
-                min_opacity=0.3,
-                gradient=gradient,
-                use_local_extrema=True
-            )
-            heatmap.add_to(m)
+                radius=15,
+                blur=12,
+                min_opacity=0.5,
+                gradient=gradient
+            ).add_to(m)
             debug_info['heatmap_saved'] = True
 
         for country, articles in country_articles.items():
